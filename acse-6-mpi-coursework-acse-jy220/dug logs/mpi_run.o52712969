@@ -1,0 +1,5 @@
+2021-04-23T05:17:36-0500: == JOB START  NAME=mpi_run QUEUE=iclmsc HOST=hnod7-6-1 DATE=Fri Apr 23 05:17:36 CDT 2021 JOBID=52712969 ARRAY_JOBID= TASK= DEPENDENCIES= ==
+2021-04-23T05:17:39-0500: Runing MPI job
+2021-04-23T05:17:39-0500: Using these nodes: echo hnod7-6-[1,17,36,47,50-51],hnod7-7-[14,16,41],hnod7-8-[1,12,49],hnod7-9-[1,5,7,12,14,37],hnod7-10-[2,12,16,18,25],hnod7-11-[30-31,37],hnod7-12-[4,7,15,20,36,44],hnod7-14-[6,30,35],hnod7-15-[24-25],hnod7-16-[9,12,17],hnod7-17-21,hnod7-18-[3,33],hnod7-19-[23,27,36],hnod7-20-[24-25],hnod7-21-[16,18,22,30,38,40],hnod7-22-[5-6,37],hnod7-23-[2,9,28,52],hnod7-24-35,hnod8-2-30,hnod8-3-39
+2021-04-23T05:17:51-0500: The code took 3.7371s to run
+2021-04-23T05:17:52-0500: == JOB END  STATUS=0 HOST=hnod7-6-1 DATE=Fri Apr 23 05:17:52 CDT 2021 RUNTIME=17 ==

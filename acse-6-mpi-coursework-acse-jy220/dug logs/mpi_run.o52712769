@@ -1,0 +1,14 @@
+2021-04-23T05:08:26-0500: == JOB START  NAME=mpi_run QUEUE=iclmsc HOST=hnod1-1-1 DATE=Fri Apr 23 05:08:26 CDT 2021 JOBID=52712769 ARRAY_JOBID= TASK= DEPENDENCIES= ==
+2021-04-23T05:08:26-0500: Runing MPI job
+2021-04-23T05:08:26-0500: Using these nodes: echo hnod1-1-[1-2],hnod1-3-[9-10],hnod1-6-19,hnod2-2-[1-2],hnod7-16-30
+2021-04-23T05:08:26-0500: ----------------------------------------------------------------------------
+2021-04-23T05:08:26-0500: Open MPI has detected that a parameter given to a command line
+2021-04-23T05:08:26-0500: option does not match the expected format:
+2021-04-23T05:08:26-0500: 
+2021-04-23T05:08:26-0500:   Option: n
+2021-04-23T05:08:26-0500:   Param:  nodes
+2021-04-23T05:08:26-0500: 
+2021-04-23T05:08:26-0500: This is frequently caused by omitting to provide the parameter
+2021-04-23T05:08:26-0500: to an option that requires one. Please check the command line and try again.
+2021-04-23T05:08:26-0500: ----------------------------------------------------------------------------
+2021-04-23T05:08:26-0500: == JOB END  STATUS=1 HOST=hnod1-1-1 DATE=Fri Apr 23 05:08:26 CDT 2021 RUNTIME=1 ==
