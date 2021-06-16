@@ -5,6 +5,6 @@
 #include "Interface.cpp"
 
 int main() {
-    Interface anInterface;
+    Interface i;
     return 0;
 }

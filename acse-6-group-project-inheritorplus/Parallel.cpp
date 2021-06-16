@@ -1,9 +1,17 @@
+/*
+  Team: inheritorplus
+  Github handle: acse-jy220; acse-xc520; acse-sw3620
+*/
+
 #include "Parallel.h"
 #include <iostream>
 #include <chrono>
 #include <math.h>
 #include <vector>
 #include <memory>
+#include <sstream>
+#include <fstream>
+#include "PNG.h"
 
 using namespace std;
 
@@ -62,129 +70,129 @@ void Parallel::get_index_row_col_serial() {
 void Parallel::add_neighbours() {
 
 #pragma omp parallel num_threads(threads) firstprivate(size, last, size_of_value, last_col_start, diag, row_index, col_index)
-    {   
-        #pragma omp for
+    {
+#pragma omp for
         for (int id = 0; id < size_of_value; ++id) {
             if (value[id]) {
 
-                    // adding left
+                // adding left
 
-                        if (col_index[id] != 0) {
+                if (col_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id - size];
+                    ++neigh_value[id - size];
 
-                        } else {
+                } else {
 #pragma omp atomic
-                            ++neigh_value[last_col_start + id];
+                    ++neigh_value[last_col_start + id];
 
-                        }
+                }
 
 
-                    // adding right
+                // adding right
 
-                        if (col_index[id] != last) {
+                if (col_index[id] != last) {
 #pragma omp atomic
-                            ++neigh_value[id + size];
-                        } else {
+                    ++neigh_value[id + size];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[id - last_col_start];
-                        }
+                    ++neigh_value[id - last_col_start];
+                }
 
 
-                    // adding up
+                // adding up
 
-                        if (row_index[id] != 0) {
+                if (row_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id - 1];
-                        } else {
+                    ++neigh_value[id - 1];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[id + last];
-                        }
+                    ++neigh_value[id + last];
+                }
 
 
-                    // adding down
+                // adding down
 
-                        if (row_index[id] != last) {
+                if (row_index[id] != last) {
 #pragma omp atomic
-                            ++neigh_value[id + 1];
-                        } else {
+                    ++neigh_value[id + 1];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[id - last];
-                        }
+                    ++neigh_value[id - last];
+                }
 
 
 
-                    // adding up-left
+                // adding up-left
 
-                        if (row_index[id] != 0 && col_index[id] != 0) {
+                if (row_index[id] != 0 && col_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id - diag];
-                        } else if (row_index[id] == 0 && col_index[id] != 0) {
+                    ++neigh_value[id - diag];
+                } else if (row_index[id] == 0 && col_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id - 1];
+                    ++neigh_value[id - 1];
 
-                        } else if (row_index[id] != 0 && col_index[id] == 0) {
+                } else if (row_index[id] != 0 && col_index[id] == 0) {
 #pragma omp atomic
-                            ++neigh_value[id + last_col_start - 1];
-                        } else {
+                    ++neigh_value[id + last_col_start - 1];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[size_of_value - 1];
-                        }
-
-
-
-
-                    // adding up-right
-
-                        if (row_index[id] != 0 && col_index[id] != last) {
-#pragma omp atomic
-                            ++neigh_value[id + last];
-                        } else if (row_index[id] == 0 && col_index[id] != last) {
-#pragma omp atomic
-                            ++neigh_value[id + size + last];
-                        } else if (row_index[id] != 0 && col_index[id] == last) {
-#pragma omp atomic
-                            ++neigh_value[id - last_col_start - 1];
-                        } else {
-#pragma omp atomic
-                            ++neigh_value[last];
-                        }
+                    ++neigh_value[size_of_value - 1];
+                }
 
 
 
 
-                    // adding down-left
+                // adding up-right
 
-                        if (row_index[id] != last && col_index[id] != 0) {
+                if (row_index[id] != 0 && col_index[id] != last) {
 #pragma omp atomic
-                            ++neigh_value[id - last];
-                        } else if (row_index[id] == last && col_index[id] != 0) {
+                    ++neigh_value[id + last];
+                } else if (row_index[id] == 0 && col_index[id] != last) {
 #pragma omp atomic
-                            ++neigh_value[id - size - last];
-                        } else if (row_index[id] != last && col_index[id] == 0) {
+                    ++neigh_value[id + size + last];
+                } else if (row_index[id] != 0 && col_index[id] == last) {
 #pragma omp atomic
-                            ++neigh_value[id + last_col_start + 1];
-                        } else {
+                    ++neigh_value[id - last_col_start - 1];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[last_col_start];
-                        }
+                    ++neigh_value[last];
+                }
 
 
-                    // adding down-right
 
-                        if (row_index[id] != last && col_index[id] != last) {
+
+                // adding down-left
+
+                if (row_index[id] != last && col_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id + diag];
-                        } else if (row_index[id] == last && col_index[id] != last) {
+                    ++neigh_value[id - last];
+                } else if (row_index[id] == last && col_index[id] != 0) {
 #pragma omp atomic
-                            ++neigh_value[id + 1];
-                        } else if (row_index[id] != last && col_index[id] == last) {
+                    ++neigh_value[id - size - last];
+                } else if (row_index[id] != last && col_index[id] == 0) {
 #pragma omp atomic
-                            ++neigh_value[id - last_col_start + 1];
-                        } else {
+                    ++neigh_value[id + last_col_start + 1];
+                } else {
 #pragma omp atomic
-                            ++neigh_value[0];
-                        }
+                    ++neigh_value[last_col_start];
+                }
+
+
+                // adding down-right
+
+                if (row_index[id] != last && col_index[id] != last) {
+#pragma omp atomic
+                    ++neigh_value[id + diag];
+                } else if (row_index[id] == last && col_index[id] != last) {
+#pragma omp atomic
+                    ++neigh_value[id + 1];
+                } else if (row_index[id] != last && col_index[id] == last) {
+#pragma omp atomic
+                    ++neigh_value[id - last_col_start + 1];
+                } else {
+#pragma omp atomic
+                    ++neigh_value[0];
+                }
 
             }
         }
@@ -218,7 +226,7 @@ void Parallel::error(vector<vector<bool>> grid, bool *value, int size) {
             error += abs(grid[i][j] - value[i + j * size]);
         }
     }
-    cout<< error;
+    cout << "Errors: " << error;
 }
 
 void Parallel::convert_initial(vector<vector<bool>> grid, bool *value, int size) {
@@ -236,9 +244,43 @@ void Parallel::set_initial() {
     for (int i = 0; i < size_of_value; ++i) {
         value[i] = (rand() % 2);
     }
+    //return value;
 }
 
+void Parallel::value_to_file(int it)
+{
+    stringstream fname;
+    fstream f1;
+    fname << "./txt/" <<"GenNum(" << it << ")_size(" << size << "*" << size <<")"<< ".txt";
+    f1.open(fname.str().c_str(), ios_base::out);
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size - 1; j++)
+            f1 << value[i + j * size] << "\t";
+        f1 << value[i + last_col_start];     
+        if (i != size - 1) f1 << "\n";
+    }
+    f1.close();
+}
 
-
+void Parallel::value_to_PNG(int it){
+    PNG *Img = new PNG();
+    Img->CreateImage(size, size);
+    stringstream fname;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (value[i + j * size] == 1) {
+                Img->pixels_[i * size + j].SetRed(0);
+                Img->pixels_[i * size + j].SetGreen(0);
+                Img->pixels_[i * size + j].SetBlue(0);
+            }
+        }
+    }
+    fname << "./png/" << "Inheritorplus_" << "GenNum(" << it << ")_size(" << size << "*" << size << ")"
+          << ".png";
+    value_to_file(it);
+    Img->SaveImage(fname.str().c_str());
+    //delete[]Img;
+}
 
 

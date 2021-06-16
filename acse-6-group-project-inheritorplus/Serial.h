@@ -1,3 +1,7 @@
+/*
+  Team: inheritorplus
+  Github handle: acse-jy220; acse-xc520; acse-sw3620
+*/
 #pragma once
 #include <vector>
 #include <iostream>
@@ -7,9 +11,8 @@ using namespace std;
 
 class Serial{
 public:
-    Serial();
 
-    Serial(int size, int max_steps);
+    Serial(int size);
 
     virtual ~Serial();
 
@@ -24,13 +27,11 @@ public:
     void gridToPNG(int it);
 
     vector<vector<bool>> grid;
+
     vector<vector<bool>> new_grid;
-    int maxiter;
 
 private:
     int imax;
     int jmax;
-
-
 
 };

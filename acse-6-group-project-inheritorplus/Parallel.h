@@ -1,3 +1,7 @@
+/*
+  Team: inheritorplus
+  Github handle: acse-jy220; acse-xc520; acse-sw3620
+*/
 #pragma once
 #include <omp.h>
 #include <vector>
@@ -7,7 +11,6 @@ using namespace std;
 
 class Parallel {
 public:
-    Parallel(){};
 
     Parallel(int size, int threads);
 
@@ -35,11 +38,9 @@ public:
     int *row_index;
     int *col_index;
 
+    void value_to_PNG(int it);
 
-
-//private:
-//    int size;
-
+    void value_to_file(int it);
 };
 
 
