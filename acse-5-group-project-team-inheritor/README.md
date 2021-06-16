@@ -1,144 +1,156 @@
-# ACSE-5 group assignment Team-inheritor
+# ACSE-6 group assignment - Game of Life with OpenMP 
 
-This piece of coursework was created by Jin Yu, Xuyuan Chen and Yuchen Wang.
+## Team-inheritorplus
 
+This piece of coursework was created by Jin Yu (acse-jy220), Xuyuan Chen (acse-xc520) and Yuchen Wang (acse-sw3620).
 
 ## Compile and run the task
-
-This task needs a link to CBLAS, you could run the shell command:
+As this task was built on MacOS, we used the `libomp` provided by [homebrew](https://brew.sh/blog/) and use `g++-10` to compile the task, you could use any compiler on your system which supports openmp to run this task.
 
 ```bash
-g++ main.cpp -o main -std=c++11 -L ./ -lcblas -lrefblas
- ./main
+$ g++-10 -fopenmp main.cpp -o main -std=c++11
+$ ./main
 ```
-
-at the root of this repository.
 
 ## User Handbook
 
-when you successfully execute the programme, you should see the interface as following.
+With a successful execution, you would see this guide window,
 
 <p align="center">
-  <img width="750" src="./screenshot/step 1.jpg">
-</p>
-
-enter "y" to continue,
-
-<p align="center">
-  <img width="750" src="./screenshot/step 2.jpg">
-</p>
-
-the programme would then ask the type of input matrix, enter "1" it would call solvers for dense matrix, while enter "2" it would call sparse solvers.
-
-<p align="center">
-  <img width="750" src="./screenshot/step 3.jpg">
-</p>
-
-whether you selected dense or sparse at the last option, this window asks whether you want to input the matrix and vector yourself, or just let the system to generate a random sample itself (a positive definite dense/sparse Matrix *A* and a random vector ***b***).
-<br>
-<br>
-<br>
-
-[***Note***: the random generator we implemented in our programme is not completely "random", the diagonal entries are tend to have bigger absolute values than non-diagonal entries, and for better display, the entries are integers by default (but not `int` in type.)]
-
--------------------------------------------------------------------------------------
-<p align="center">
-  <img width="750" src="./screenshot/step 4.jpg">
-</p>
-
-If you choose the option "Randomly Create a test example", the programme will then ask you to input the size of the linear system: this is equal to the number of rows of Matrix *A*, or say, size of vector ***b***.
-
-<p align="center">
-  <img width="750" src="./screenshot/step 5.jpg">
-</p>
-
-We take a dense linear system of size "10" as an example, the programme would then print out a random matrix of 10 * 10, as well as a random vector of size 10 to be the RHS ***b***.
-
-<p align="center">
-  <img width="750" src="./screenshot/step 6.jpg">
-</p>
-
-At this window, you are free to choose the solver to solve this system, if you choose a single one, for example Jacobi, you will have the following output:
-
-<p align="center">
-  <img width="750" src="./screenshot/jacobi.jpg">
-</p>
-
-The output shows the number of iteration it used, the spent time, and ***x*** the solution it get.
-
-Our programme also performs a "self-error checking", we substitute the solution back, multiply with the Matrix *A*, subtracting RHS vector ***b*** and compute the L2 norm of the residual. 
-
-<p align="center">
-  <img width="750" src="./screenshot/all 2.jpg">
-</p>
-
-
-If you choose "compare 4 methods and get the feedback", you will be given the solutions for each 4 method, as well as their error and time spent saperately.
-
-For sparse Matrix, if you chose "Randomly Create a test example", the programme will generate a positive definite sparse Matrix in CSR format:
-<br>
-<p align="center">
-  <img width="750" src="./screenshot/sp1.jpg">
-</p>
-
-<br>
-and print out the information for it as well as the random vector b.
-<br>
-<br>
-
-If you choose to "read from the txt files", please ensure you input the CSRMatrix in the `csr.txt` with a correct format(3 rows), and the RHS vector in `csrVector.txt` (1 row). An example is already given in both `txt`s, the successfully run example likes:
-
-<br>
-<p align="center">
-  <img width="750" src="./screenshot/readCSR.jpg">
-</p>
-
-If you choose "a" to run all solvers for a sparse linear system, both sparse solvers will be called and also, our programme will transfer the CSR format input to a dense one, and also solve them with the dense solvers, as follows:
-<br>
-<p align="center">
-  <img width="750" src="./screenshot/sp2.png">
-</p>
-<br>
-We use the parameter (number of non-zeros / matrix elements) to define the sparseness of a Matrix, try to play with the random CSR linear system generator with a larger size, say 1000, you will find the sparse solvers obviously save time then dense solvers as the Matrix is sparser.
-
-<p align="center">
-  <img width="750" src="./screenshot/back.jpg">
-</p>
-
-After one run, this window enables you to make a second run with a Matrix of different type or alter the way of inputting data.
-
-
-### Some points to note when self-implementing the Matrix data and the RHS vector
-
-For dense systems, please input the Matrix *A* row by row into `Matrix_A.txt`. (e.g for a 10 * 10 Matrix, you should put 10 elements each row) the delimiter should be a single space `" "` between each two elements. Note there is no space at the end of each line!
-
-<br>
-
-Please input the entries of the RHS vector ***b*** into `Vector_b.txt`, also gapped by single spaces.
-
-<p align="center">
-  <img width="750" src="./screenshot/dtemp.png">
-</p>
-
-For sparse systems, please input the CSRMatrix *A* into `csr.txt`. You should input the information with the standard CSR format: 
-<p align="center">
-  <img width="750" src="./screenshot/stemp.png">
-</p>
-
-<br>
-The first row is the values, the second is the row_position, and the third is column_index.
-
-<br>
-
-And the corresponding RHS vector ***b*** for the sparse system should be input in the `csrVector.txt`, not the the same file for ***b*** as above!
-
-<br>
-
-With a correct input, you should see something like follows:
-<p align="center">
-  <img width="750" src="./screenshot/csr input.png">
+  <img width="500" src="./guidepics/step1.png">
 </p>
 
 <br>
 
-And now you're ready to go to solve to linear system!
+press 'yes' to continue, 
+
+<p align="center">
+  <img width="500" src="./guidepics/step2.png">
+</p>
+
+you can see there is an option for you to choose to [generate a random grid](#1), or to [input it using a .txt file](#2) by your own.
+
+### <span id="1">generate random grid</span>
+
+if you choose '1', you will need to follow the steps
+<p align="center">
+  <img width="500" src="./guidepics/step3.png">
+</p>
+
+<p align="center">
+  <img width="500" src="./guidepics/step4.png">
+</p>
+
+to set the size of the grid and iteration times of the game.
+
+After that, this window would come up, 
+
+<p align="center">
+  <img width="500" src="./guidepics/step5.png">
+</p>
+
+to ask you whether you want to just run the parallel version, or run the serial version as well to compare their performance.
+
+<p align="center">
+  <img width="500" src="./guidepics/step6.png">
+</p>
+
+if you choose '1', the program would ask you to input the thread number for the parallel algorithm to use, as an example, we use the default thread_num **12**.
+
+<p align="center">
+  <img width="500" src="./guidepics/step7.png">
+</p>
+<br>
+
+Then there will be a series of outputs, the first four lines compare the serial and parallel algorithms' performance on small tasks, like index setting and initial value assignment. The 'Error' printed is just to check whether the serial version and parallel version have the same grid before and after iteration (see its definition in `Parallel.cpp`). The most important result is at the bottom, shows how much time used by serial and parallel versions respectively. As we can observe from this single trial, the parallel one we implemented do **100** times better over performance than the original serial algorithm in `ConwaysGame_Serial.cpp`!
+
+
+<p align="center">
+  <img width="500" src="./guidepics/step8.png">
+</p>
+<br>
+
+After one trial, you could change thread numbers and do it again.
+
+<br>
+If you choose to just run the parallel version, you can choose to run with a certain thread number, or run serveral trials with different thread numbers, ranging from 1 to 2 * omp_get_max_threads(), to see how performance veries using different thread nums.
+
+<p align="center">
+  <img width="500" src="./guidepics/step9.png">
+</p>
+<br>
+
+The output of running a single one is similar as above, if you choose '2', you would get a list of outputs of time consumed with different thread_num s over a same game.
+
+<p align="center">
+  <img width="500" src="./guidepics/step10.png">
+</p>
+<br>
+
+### <span id="2">input grid by txt</span>
+
+To start with a grid you have on your hand, back to the beginning, 
+
+<p align="center">
+  <img width="500" src="./guidepics/step2.png">
+</p>
+<br>
+
+choose '2' at this window, you would find a guide window to show you the corret format to input in the **.txt** file be readable.
+
+<p align="center">
+  <img width="500" src="./guidepics/step11.png">
+</p>
+<br>
+
+enter 'y' to continue, 
+
+<p align="center">
+  <img width="500" src="./guidepics/step12.png">
+</p>
+<br>
+
+this window is to provide an extra option to read a **.txt** file from a custom path, even something at the output directory \txt. If you choose '1' it would read the grid stored in `input.txt` by default, a 100 * 100 example is given.
+
+<p align="center">
+  <img width="500" src="./guidepics/step13.png">
+</p>
+<br>
+
+<p align="center">
+  <img width="500" src="./guidepics/step14.png">
+</p>
+<br>
+
+enter the iteration times, and you would continue the same processes as for a random smaple.
+
+<p align="center">
+  <img width="500" src="./guidepics/step15.png">
+</p>
+<br>
+
+If you choose to read **.txt** from a custom path, please be sure you have entered the right relative path, otherwise the program would fail.
+
+<p align="center">
+  <img width="500" src="./guidepics/step16.png">
+</p>
+<br>
+
+enter the iteration times and you would follow the same processes as for a random smaple.
+
+## outputs
+
+At each run, whether you run a comparing option, or run single parallel, or comparing between thread numbers, our programme would output the **.txt** and **.png** files for the grid at its initial stage, half stage (2 / Max_Iter_Steps) and final stage (Max_Iter_Steps), that is, a single execution would generate 6 files under 2 folders, the **.txt** files are under `/txt`, while the ouput **.png** files are under `/png`.
+
+<br>
+However, to note that our programme will not automatically clear the outputs in those two folders, and it may get very mass in the output folders if you execute the task serveral times without clearing the former results!!! So my suggestion here is if you want to verify the results for a certain grid, it's strongly recommanded that you empty the `/txt` and `/png` folder.
+
+
+
+
+
+
+
+
+
+
