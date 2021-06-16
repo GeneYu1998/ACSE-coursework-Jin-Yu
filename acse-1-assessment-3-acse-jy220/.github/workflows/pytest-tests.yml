@@ -1,0 +1,115 @@
+
+
+name: Pytest-tests
+
+# Trigger the workflow on push or pull request,
+# but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+
+  pytest-unbuntu:
+    
+    runs-on: ubuntu-20.04
+                      
+    steps:
+
+      - uses: actions/checkout@v2
+
+
+      - name: Set pytest directory
+        run: echo "::set-env name=TESTS::tests/"
+
+
+      - name: Set doctest suffix
+        run: echo "::set-env name=DOCTEST::--doctest-modules acse_la/gauss.py -v"
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get install python3-setuptools -y
+          pip3 install --upgrade pip
+          pip3 install -e .
+          pip3 install -r requirements.txt
+          
+      - name: Set a run prefix
+        run: echo "::set-env name=RUN::python3 -m"
+        
+      - name: Test with pytest
+        run: $RUN pytest $TESTS $DOCTEST
+
+
+  pytest-macOS:
+
+    runs-on: macos-11.0
+                      
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+           python-version: 3.7
+
+      - name: Set pytest directory
+        run: echo "::set-env name=TESTS::tests/"
+
+
+      - name: Set doctest suffix
+        run: echo "::set-env name=DOCTEST::--doctest-modules acse_la/gauss.py -v"
+      
+      - name: Install dependencies
+        run: |
+          pip3 install --upgrade pip
+          pip3 install -e .
+          pip3 install -r requirements.txt
+          
+      - name: Set a run prefix
+        run: echo "::set-env name=RUN::python3 -m"
+        
+      - name: Test with pytest
+        run: $RUN pytest $TESTS $DOCTEST
+
+
+  pytest-windows:
+    
+    runs-on: windows-2019
+                      
+    steps:
+
+      - uses: actions/checkout@v2
+
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+           python-version: 3.8
+           
+      - uses: s-weigand/setup-conda@v1
+        with:
+          activate-conda: true
+      - run: conda --version
+      
+      - name: Set pytest directory
+        run: echo "::set-env name=TESTS::tests/"
+
+
+      - name: Set doctest suffix
+        run: echo "::set-env name=DOCTEST::--doctest-modules acse_la/gauss.py -v"
+      
+      - name: Install dependencies
+        run: |
+          conda activate
+          conda install setuptools
+          conda env create -f environment.yml
+          pip3 install -r requirements.txt
+          pip3 install -e .
+        
+      - name: Test with pytest
+        run: pytest $TESTS $DOCTEST
+        

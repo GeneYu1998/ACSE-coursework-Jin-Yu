@@ -1,0 +1,276 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{eurosym}
+\usepackage{graphicx}
+\usepackage{subfig}
+
+\newcommand{\rr}{\mathbb{R}}
+\newcommand{\rrn}{\mathbb{R}^{n}}
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\qq}{\mathbb{Q}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\cc}{\mathbb{C}}
+\newcommand{\dd}{\mathrm{d}}
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\newenvironment{detmatrix}[1]{%
+  \left|\begin{array}{@{}*{#1}{c}}
+}{%
+  \end{array}\right|
+}
+
+    \makeatletter
+    \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+      \hskip -\arraycolsep
+      \let\@ifnextchar\new@ifnextchar
+      \array{#1}}
+    \makeatother
+    
+%definition for scalar product and norm
+\newcommand{\scal}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+
+\newcommand{\Ra}{\Rightarrow}
+
+%definition of averages
+\newcommand{\averageh}[1]{\left\langle#1\right\rangle}
+\newcommand{\averaget}[1]{\overline{ #1}}
+
+%definition calculus
+\newcommand{\grad}{\operatorname{grad}}
+\renewcommand{\div}{\operatorname{div}}
+\newcommand{\rot}{\operatorname{rot}}
+
+\newcommand{\ig}[1]{\includegraphics[keepaspectratio=true, width=.7\textwidth]{#1}}
+\newcommand{\igw}[2]{\includegraphics[keepaspectratio=true, width=#2\textwidth]{#1}}
+
+
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+\newtheorem{method}{Method}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\begin{document}
+\begin{center}
+\LARGE{ACSE-1 2020/21 - Assessment 3}\\
+\vspace{0.5cm}
+\LARGE{Testing, debugging, CI \& optimization}\\
+\end{center}
+\vspace{1.5cm}
+%
+This file contains instructions for completing the assignment. See the \newline
+README.md file located in the base folder of this repository for instructions
+regarding setting up the software.
+
+The assessment is based around debugging, adding tests, docstrings and CI for a
+\href{https://en.wikipedia.org/wiki/Gaussian\_elimination}{Gaussian elimination} algorithm
+and then developing and optimising an algorithm for computing the determinant of matrices.
+\textit{\textbf{Note}} that you do not need to understand the details of how to implement
+a Gaussian elimination algorithm to complete this assignment, however you will need
+to understand how to multiply two matrices together and how to compute the
+\href{https://en.wikipedia.org/wiki/Determinant}{Determinant} of a square matrix.
+Both of these linear algebra operations are explained below before detailing the
+assessment.
+
+\section*{Matrix multiplication}
+
+Let $A$ be an $n \times m$ matrix and $B$ be an $m \times l$ matrix. We define the product of $A$ and $B$ as the dot product/scalar product of each row of the matrix $A$ with each column of the matrix $B$, that is
+\begin{equation}
+\begin{split}
+A \cdot B &:=\begin{pmatrix}
+a_{11} & a_{12} & \dots & a_{1m} \\
+a_{21} & a_{22} & \dots & a_{2m} \\
+\vdots &  \vdots & \dots &\vdots\\
+a_{n1} & a_{n2} & \dots & a_{nm} \\
+\end{pmatrix}\cdot
+\begin{pmatrix}
+b_{11} & b_{12} & \dots & b_{1l} \\
+b_{21} & b_{22} & \dots & b_{2l} \\
+\vdots &  \vdots & \dots &\vdots\\
+b_{m1} & b_{m2} & \dots & b_{ml} \\
+\end{pmatrix}
+\\ &:=
+\begin{pmatrix}
+\sum_{j=1}^m a_{1j}b_{j1} & \dots & \sum_{j=1}^m a_{1j}b_{jl} \\
+\sum_{j=1}^m a_{2j}b_{j1} & \dots & \sum_{j=1}^m a_{2j}b_{jl} \\
+\vdots & \dots & \vdots \\
+\sum_{j=1}^m a_{nj}b_{j1} & \dots & \sum_{j=1}^m a_{nj}b_{jl} \\
+\end{pmatrix}
+\end{split}
+\end{equation}
+and hence the result is an $n \times l$ matrix. A matrix is said to be square if $n = m$.
+
+\begin{example}
+$$
+\begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\begin{pmatrix}
+5 \\ 6
+\end{pmatrix}
+=\begin{pmatrix}
+5 + 12 \\
+15 + 24 
+\end{pmatrix}
+=\begin{pmatrix}
+17\\39
+\end{pmatrix}
+$$
+\end{example}
+
+\begin{example}
+$$
+\begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\begin{pmatrix}
+5 & 1 \\ 6 & 2
+\end{pmatrix}
+=\begin{pmatrix}
+5 + 12 & 1 + 4 \\
+15 + 24 & 3 + 8
+\end{pmatrix}
+=\begin{pmatrix}
+17 & 5 \\ 39 & 11
+\end{pmatrix}
+$$
+\end{example}
+
+\section*{Determinant}
+
+Consider an $n\times n$ matrix $A$. Furthermore, denote $B_{ij}$ the $(n-1)\times(n-1)$ matrix obtained from $A$ by removing the $i$-th row and the $j-th$ column. Then, it holds true that
+\begin{equation}
+\det(A) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} \det(B_{ij})
+\end{equation}
+for any fixed $i$ (row expansion), and
+\begin{equation}
+\det(A) = \sum_{i=1}^{n} (-1)^{i+j} a_{ij} \det(B_{ij}) 
+\end{equation}
+for any fixed $ j$ (column expansion).
+The term $(-1)^{i+j}$ can be found easily by thinking of a chessboard: 
+\begin{equation*}\begin{pmatrix}
++ & - & + & \hdots  \\
+- & + & - & \hdots \\
++& - & &  \\
+& &\ddots  & \vdots \\
+\hdots & \hdots &- &+ 
+\end{pmatrix}
+\end{equation*}
+By subsequent application, the computation of a determinant is broken down into a computation of many $2\times 2$ determinants. 
+\begin{example}
+\begin{equation*}
+\det\begin{pmatrix}
+2 & 3 & 7 & 9 \\
+0 & 0 & 2 & 4 \\
+0 & 1 & 5 & 0 \\
+0 & 0 & 0 & 3 
+\end{pmatrix}
+= 2\cdot \det\begin{pmatrix}
+0 & 2 & 4 \\ 1 & 5 & 0 \\0 & 0 & 3
+\end{pmatrix} = 2\cdot (-1) \cdot \det\begin{pmatrix}
+2 & 4 \\ 0 & 3
+\end{pmatrix}=2\cdot (-1) \cdot6=-12.
+\end{equation*}
+\end{example}
+Note that we have chosen which row/column to expand to minimize our workload. This example demonstrates that Laplace's formula saves effort when expanding a row or column containing many zeros.
+
+\section*{Assessment}
+
+\begin{enumerate}
+\item Currently, running \texttt{flake8} from the base folder of this repository will reveal
+several errors. Running \texttt{pytest tests/} will also reveal that the single test
+located in the file \texttt{tests/test\_gauss.py} fails -- this is due to two bugs, one bug with the matrix
+multiplication algorithm and one bug due to the computation of the determinant. Further, attempting to build
+the \texttt{sphinx documentation} located in \texttt{docs} will fail due to a couple of errors.
+\begin{enumerate}
+ \item Make the repository \texttt{PEP8} compliant (i.e. fix the \texttt{flake8} errors)
+ \item Add docstrings to the functions \texttt{matmul} and \texttt{zeromat}
+ \item To \texttt{test\_gauss.py}, add additional tests for \texttt{matmul} and \texttt{zeromat}.
+ (Note that you'll need to make these functions visible to the test file). Your tests
+ should make use of the parameterize decorator to test multiple inputs.
+ In doing this, you'll notice that any suitable test for the \texttt{matmul} function fails. Debug
+ this function such that your test passes.
+ \item With \texttt{matmul} fixed you'll notice that the \texttt{gauss} related test is still
+ broken. Fix this bug
+ so that \texttt{test\_gauss} passes and utilising the parameterize decorator add further (at least one) set of test inputs. \textbf{Note:} A properly working \texttt{gauss} function should be
+ able to correctly return non integer determinants and this functionality should be tested.
+ \item Next, add an additional file in tests called \newline
+ \texttt{test\_docstrings.py} that
+ tests the docstring tests in each of the three functions present in \texttt{gauss.py}.
+ \item Finally for part 1, fix the bugs present in \texttt{docs/conf.py}. When fixed, use \texttt{sphinx}
+ to build the associated \texttt{html} files and compile these into a \texttt{pdf} file named
+ \texttt{ACSE\_la.pdf} which should be located in the \texttt{docs} folder. This documentation
+ should be updated to reflect the final state of your repository.
+\end{enumerate}
+[40 marks]
+\item The next task is to add some CI in the form of Github Actions workflows. These workflows should
+be placed within the repository in the \texttt{.github/workflows} folder.
+\begin{enumerate}
+ \item Create a workflow that checks the workflow is PEP8 compliant. The workflow should trigger when
+ (at the very least) a push is made the main branch.
+ \item Create a workflow that runs \texttt{pytest} on all test files present within the \texttt{tests/}
+ folder. The workflow should execute the tests on the following operating systems: (i) Ubuntu 20.04,
+ (ii) MacOS 11.0 \& (iii) Windows Server 2019. (You may utilize the default \texttt{Python3} distribution
+ available on those operating systems).
+\end{enumerate}
+[25 marks]
+\item If we simply wish to compute the determinant of a matrix (e.g. \texttt{det = gauss(A, I)}),
+clearly our current algorithm is not optimal, especially when the matrix becomes large
+(~$10,000 \times 10,000$). Lets see how bad it is and if we can do better.
+\begin{enumerate}
+ \item Within the \texttt{scripts/} folder add a file called \texttt{det\_timings.py}. This script should,
+ for many ($\approx10$) square matrices of increasing size ($2 \times 2 \Rightarrow 10,000 \times 10,000$), compute
+ the time taken by the \texttt{gauss} algorithm
+ to compute the determinant of these matrices. Additionally, for each of these matrices compute the time taken by
+ \texttt{numpy.linalg.det} to calculate the determinant. Timing results should be
+ written automatically by the script to a file named \texttt{timings.txt} in the \texttt{results/} folder with the
+ formatting illustrated in Table \ref{timings_table}.
+ \item Add a new workflow that, using a single operating system of your choice, executes the
+ script \texttt{det\_timings.py}, commits the new results (i.e. the new \texttt{timings.txt} produced)
+ and pushes them to your github repository.
+ \item In the \texttt{acse\_la} folder add a new file \texttt{det.py} that contains a function (that you will write) named
+ \texttt{det}. This function should be your own algorithm to compute \textit{only} the determinant
+ of a single square matrix that's passed to it. How does your implementation compare to that of \texttt{gauss}
+ and \texttt{numpy.linalg.det}? Have your script \texttt{det\_timings.py} also compute the timing of your
+ \texttt{det} algorithm and add your results as a third column in \texttt{timings.txt}
+\end{enumerate}
+[35 marks]
+\end{enumerate}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{ c c c }
+ 2 & 0.001 & 0.001 \\ 
+ 4 & 0.02 & 0.01 \\  
+ $\vdots$ & $\vdots$ & $\vdots$ \\
+ 10000 & 5.0 & 1.0
+\end{tabular}
+\end{center}
+\caption{\label{timings_table}Example formatting of the results table. The first column represents
+the size of the matrix along one of its axes. The second column represents the corresponding timing
+in a suitable unit of the \texttt{gauss} algorithm and the final column that of \texttt{numpy.linalg.det}.}
+\end{table}
+
+Notes:
+\begin{itemize}
+ \item Remember to ensure that the final version of your repository is \texttt{PEP8} compliant.
+ \item Keep the sphinx documentation up to data.
+ \item Additionally, ensure that your \texttt{requirements.txt} file has been updated
+ appropriately to reflect any new dependencies you've added.
+ \item For part 3(b) you have have your script and workflow overwrite the existing
+ \texttt{timings.txt} file \textit{or} create a new file of the form
+ \texttt{timings\_\textit{\{some identifier\}}.txt} and commit that upon each execution.
+\end{itemize}
+
+\end{document}
