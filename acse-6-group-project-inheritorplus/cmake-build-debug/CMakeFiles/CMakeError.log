@@ -1,0 +1,26 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /Library/Developer/CommandLineTools/usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+ld: library not found for -lSystem
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+Detecting C OpenMP version failed with the following output:
+Change Dir: /Users/chenxuyuan/Github/group-project-inheritorplus/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5c357/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_5c357.dir/build.make CMakeFiles/cmTC_5c357.dir/build
+Building C object CMakeFiles/cmTC_5c357.dir/OpenMPCheckVersion.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -Xpreprocessor -fopenmp -lomp -Wno-unused-command-line-argument -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk   -o CMakeFiles/cmTC_5c357.dir/OpenMPCheckVersion.c.o   -c /Users/chenxuyuan/Github/group-project-inheritorplus/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c
+/Users/chenxuyuan/Github/group-project-inheritorplus/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c:3:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_5c357.dir/OpenMPCheckVersion.c.o] Error 1
+make: *** [cmTC_5c357/fast] Error 2
+
+
+

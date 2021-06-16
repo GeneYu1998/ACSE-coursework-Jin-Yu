@@ -1,0 +1,3 @@
+ToolSet: 1.0 (local)Options: 
+
+Options:-DCMAKE_CXX_COMPILER=/usr/local/Cellar/gcc/10.2.0_3/bin/g++-10
