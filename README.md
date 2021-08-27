@@ -14,3 +14,5 @@ among these 14 courseworks, marks are below:
 
 3. Hope you find this useful, and if you spot anything weird, struggle at how to execute the program or want to discuss the methodology of solutions with me,
 please contact me via jin.yu20@imperial.ac.uk or yujin032@126.com.
+
+For the Indenpendent Research Project (ACSE-9) that I done, please see [SFC-CAE-Ready-to-use](https://github.com/acse-jy220/SFC-CAE-Ready-to-use).
