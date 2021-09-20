@@ -12,9 +12,9 @@ please contact me via jin.yu20@imperial.ac.uk or yujin032@126.com.
 4. For the Indenpendent Research Project (ACSE-9) that I done, please see [SFC-CAE-Ready-to-use](https://github.com/acse-jy220/SFC-CAE-Ready-to-use).
 
 [**Note**]: 
-If you just want to download a certain piece of coursework without cloning the whole repo, use [subversion](https://subversion.apache.org/). 
+If you just want to download a certain piece of coursework without cloning the whole repo, use [subversion](https://subversion.apache.org/):
 
-[br]
+<br>
 On Linux, install it via
 ```sh
 $ sudo apt install subversion
