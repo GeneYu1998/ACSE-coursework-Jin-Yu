@@ -9,5 +9,24 @@ You could have an overview of what format of the coursework like, and get an ide
 2. My work could give you some inspiration, but do not take them as model answers.
 3. Hope you find this useful, and if you spot anything weird, struggle at how to execute the program or want to discuss the methodology of solutions with me,
 please contact me via jin.yu20@imperial.ac.uk or yujin032@126.com.
-
 4. For the Indenpendent Research Project (ACSE-9) that I done, please see [SFC-CAE-Ready-to-use](https://github.com/acse-jy220/SFC-CAE-Ready-to-use).
+
+[**Note**]: 
+If you just want to download a certain piece of coursework without cloning the whole repo, use [subversion](https://subversion.apache.org/). 
+
+[br]
+On Linux, install it via
+```sh
+$ sudo apt install subversion
+```
+On Mac, install it using [homebrew](https://brew.sh/)
+```sh
+$ brew install subversion
+```
+
+After `subversion` is installed, you could use command like
+
+```sh
+$ svn checkout https://github.com/GeneYu1998/ACSE-coursework-Jin-Yu/trunk/acse-5-group-project-team-inheritor
+```
+to simply download coursework 5.
