@@ -31,4 +31,4 @@ After `subversion` is installed, you could use command like
 ```sh
 $ svn checkout https://github.com/GeneYu1998/ACSE-coursework-Jin-Yu/trunk/acse-5-group-project-team-inheritor
 ```
-to simply download coursework 5.
+to only download coursework 5.
