@@ -1,6 +1,6 @@
 # ACSE-coursework-Jin-Yu
 
-This repository contains all of my coursework for the the [MSc Applied Computational Science & Engineering](https://github.com/acse-2020/acse-2020.github.io), Imperial College London, year 2020-2021.
+This repository contains all of my coursework for the [MSc Applied Computational Science & Engineering](https://github.com/acse-2020/acse-2020.github.io), Imperial College London, year 2020-2021.
 <br>
 <br>
 
@@ -15,7 +15,7 @@ please contact me via jin.yu20@imperial.ac.uk or yujin032@126.com.
 <br>
 
 [**Note**]: 
-If you just want to download a certain piece of coursework without cloning the whole repo, use [subversion](https://subversion.apache.org/):
+If you just want to download a certain piece of coursework instead of cloning the whole repo, use [subversion](https://subversion.apache.org/):
 
 On Linux, install it via
 ```sh
