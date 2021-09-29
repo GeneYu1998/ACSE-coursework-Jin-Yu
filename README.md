@@ -9,7 +9,7 @@ You could have an overview of what format of the coursework like, and get an ide
 2. My work could give you some inspiration, but do not take them as model answers.
 3. Hope you find this useful, and if you spot anything weird, struggle at how to execute the program or want to discuss the methodology of solutions with me,
 please contact me via jin.yu20@imperial.ac.uk or yujin032@126.com.
-4. For the Indenpendent Research Project (ACSE-9) that I done, please see [SFC-CAE-Ready-to-use](https://github.com/acse-jy220/SFC-CAE-Ready-to-use).
+4. For the Indenpendent Research Project (ACSE-9) that I done, please check [submodule](https://github.com/acse-jy220/SFC-CAE-Ready-to-use/tree/c9dd340ab0e9510888be3ee139d0a08286246def) or navigate to [SFC-CAE-Ready-to-use](https://github.com/acse-jy220/SFC-CAE-Ready-to-use).
 
 <br>
 <br>
