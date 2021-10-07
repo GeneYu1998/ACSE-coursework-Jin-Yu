@@ -1,3 +1,4 @@
 [submodule "SFC-CAE-Ready-to-use"]
 	path = SFC-CAE-Ready-to-use
 	url = https://github.com/acse-jy220/SFC-CAE-Ready-to-use
+	branch = main
