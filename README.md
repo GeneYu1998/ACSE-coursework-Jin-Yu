@@ -1,14 +1,7 @@
 # ACSE-coursework-Jin-Yu
 
-This repository contains all of my coursework for the [MSc Applied Computational Science & Engineering](https://github.com/acse-2020/acse-2020.github.io), Imperial College London, year 2020-2021. My overall classification for the MSc course is **Distinction**, marks are below:
+This repository contains all of my coursework for the [MSc Applied Computational Science & Engineering](https://github.com/acse-2020/acse-2020.github.io), Imperial College London, year 2020-2021. My overall classification for the MSc course is [Distinction](Marks.png)
 <br>
-
-<p align="center">
-  <a href="Marks.png">
-    <img src="Marks.png" width="300">
-  </a>
-</p>
-
 <br>
 
 You could have an overview of what format of the coursework like, and get an idea of the workload of this course, but 
